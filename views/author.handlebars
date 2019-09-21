@@ -1,0 +1,18 @@
+<h1>{{title}}</h1>
+
+<table class="table mt-4 table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">author Id</th>
+            <th scope="col">Author Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each results}}
+        <tr>
+            <td>{{this.author_id}}</td>
+            <td>{{this.name}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

@@ -1,0 +1,13 @@
+INSERT INTO book (author_id,title,GENRE)
+SELECT author_id, 'Around the World in Eighty Days', 34 FROM author WHERE name = 'D.  Jules Verne';
+
+INSERT INTO books (author_id,title,GENRE)
+SELECT author_id, 'Business @ Speed of Thought', 34 FROM author WHERE name = 'Bill Gates';
+
+INSERT INTO books (book_id)
+VALUES(1001,1002,1003,1004,1005)
+INSERT INTO books (author_id,title,GENRE)
+SELECT author_id, 'Devdas', 34 FROM author WHERE name = 'B.  Saratchandra Chattopadhyay';
+
+INSERT INTO books (author_id,title,GENRE)
+SELECT author_id, 'Panchatantra', 34 FROM author WHERE name = 'C. Vishnu Sharma';
