@@ -20,11 +20,28 @@ app.use('/api',require('./api/deleteRequestApi'));
 app.use('/api/add', require('./api/postRequestApi'));
 
 app.get('/',(req,res)=>{
-    return res.redirect("home");
+    return res.render("home");
 })
-// app.post('/submit', (req,res)=>{
-//     var sql = "insert into User values('"+req.body.+"')"
-// })
+app.post('/submit', (req,res)=>{
+    // const schema = joi.object().keys({
+    //     name:joi.string().alphanum().min(2).max(30).required(),
+    //     email:joi.string().trim().email().required(),
+    //     password:joi.string().pattern(/^[a-zA-Z0-9]{3,30}$/)
+    // });
+    // joi.validate(req.body,schema,(err,result)=>{
+    //     if(err){
+    //         res.send('an Error has Occured, Please fill Properly Again');
+    //     }
+    //     else("posted success")
+    // })
+    var sql = "insert into User values('"+req.body.name+"','"+req.body.email+"','"+req.body.phone+"','"+req.body.password+"');"
+    database.query(sql,(err,rows,fields)=>{
+        if(err){
+            throw err;
+        } else{
+            res.render("formSubmit",{title: "You are Registered Succesfully"})
+        }
+    })
+})
 app.listen(port, () => console.log(`app listening on port ${port}!`));
-
 
