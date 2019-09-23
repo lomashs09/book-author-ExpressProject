@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router  = express.Router();
 const database = require('../config.js')
@@ -6,7 +5,7 @@ const database = require('../config.js')
 // First you need to create a connection to the db
 
 const con = database;
-router.get("/books", (req, res) => {
+router.get("", (req, res) => {
   let sql = "SELECT * FROM books";
   con.query(sql, (err, results) => {
     if (err) {

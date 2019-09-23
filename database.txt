@@ -11,3 +11,9 @@ SELECT author_id, 'Devdas', 34 FROM author WHERE name = 'B.  Saratchandra Chatto
 
 INSERT INTO books (author_id,title,GENRE)
 SELECT author_id, 'Panchatantra', 34 FROM author WHERE name = 'C. Vishnu Sharma';
+
+
+
+// User Table
+
+Create Table User(UserName varchar(50) NOT NULL,Email nvarchar(40), Phone int, Password varchar(20) );
