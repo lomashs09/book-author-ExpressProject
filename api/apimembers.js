@@ -1,11 +1,7 @@
 
 const express = require('express');
-const data = require('../data');
-const exphbs = require('express-handlebars');
-const app = express();
 const router  = express.Router();
 const database = require('../config.js')
-
 
 // First you need to create a connection to the db
 
@@ -67,15 +63,34 @@ router.get("/authors", (req, res) => {
   });
 });
 
+router.get("/authors/:id", (req, res) => {
+    console.log(req.params.id);
+    let sql = `SELECT name FROM author where author_id =` + req.params.id;
+    con.query(sql, (err, results) => {
+      if (err) {
+        throw err;
+      } else {
+        if (req.headers["content-type"] == "routerlication/json") {
+          //if jsonObj is requested
+          return res.json(results);
+        } else {
+          return res.render("authorId", {
+            title: "Author for the id:"+ req.params.id,
+            results
+          }); //else html will be rendere
+        }
+      }
+    });
+  });
 
 
-router.get('/',(req,res) => {
-if(req.headers["content-type"] == "application/json"){  //if jsonObj is requested
-    return res.json(data)
-}
-else{
-return res.render('index',{title:'Books and Authors',data})   //else html will be rendered
-}
-});
+// router.get('/',(req,res) => {
+// if(req.headers["content-type"] == "application/json"){  //if jsonObj is requested
+//     return res.json(data)
+// }
+// else{
+// return res.render('index',{title:'Books and Authors',data})   //else html will be rendered
+// }
+// });
 
 module.exports = router;
