@@ -12,16 +12,14 @@ app.use(express.urlencoded({extended : false}));
 
 // Registration Page for User
 app.use('', require('./registration'));  
-// Get API EndPoints
+// GET Request EndPoints
 app.use('/api/get', require('./api/getRequestApi.js')); 
 //PUT Request EndPoints
 app.use('/api/update' ,require('./api/putRequestApi'));
 //DELETE Request EndPoints
 app.use('/api',require('./api/deleteRequestApi'));
-// PUT Request EndPoints
+// POST Request EndPoints
 app.use('/api/add', require('./api/postRequestApi'));
-
-
 
 app.listen(port, () => console.log(`app listening on port ${port}!`));
 
