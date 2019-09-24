@@ -1,17 +1,14 @@
 const express = require('express');
-const router  = express.Router();
-const database = require('../config.js')
+const router  = express.Router();   
+const database = require('../config.js')      // Database
 
-// First you need to create a connection to the db
-
-const con = database;
-router.get("", (req, res) => {
+router.get("/books", (req, res) => {
   let sql = "SELECT * FROM books";
-  con.query(sql, (err, results) => {
+  database.query(sql,(err, results) => {
     if (err) {
       throw err;
     } else {
-      if (req.headers["content-type"] == "routerlication/json") {
+      if (req.headers["content-type"] == "application/json") {
         //if jsonObj is requested
         return res.json(results);
       } else {
@@ -21,14 +18,13 @@ router.get("", (req, res) => {
   });
 });
 
-router.get("/books/:id", (req, res) => {
-  console.log(req.params.id);
+router.get("/books/:id",(req, res) => {
   let sql = `SELECT title FROM books where book_id =` + req.params.id;
-  con.query(sql, (err, results) => {
+  database.query(sql, (err, results) => {
     if (err) {
       throw err;
     } else {
-      if (req.headers["content-type"] == "routerlication/json") {
+      if (req.headers["content-type"] == "application/json") {
         //if jsonObj is requested
         return res.json(results);
       } else {
@@ -41,15 +37,14 @@ router.get("/books/:id", (req, res) => {
   });
 });
 
-
 router.get("/authors", (req, res) => {
   console.log(req.params.id);
   let sql = `SELECT * FROM author order by author_id ASC`;
-  con.query(sql, (err, results) => {
+  database.query(sql, (err, results) => {
     if (err) {
       throw err;
     } else {
-      if (req.headers["content-type"] == "routerlication/json") {
+      if (req.headers["content-type"] == "application/json") {
         //if jsonObj is requested
         return res.json(results);
       } else {
@@ -65,11 +60,11 @@ router.get("/authors", (req, res) => {
 router.get("/authors/:id", (req, res) => {
     console.log(req.params.id);
     let sql = `SELECT name FROM author where author_id =` + req.params.id;
-    con.query(sql, (err, results) => {
+    database.query(sql, (err, results) => {
       if (err) {
         throw err;
       } else {
-        if (req.headers["content-type"] == "routerlication/json") {
+        if (req.headers["content-type"] == "application/json") {
           //if jsonObj is requested
           return res.json(results);
         } else {
@@ -81,15 +76,5 @@ router.get("/authors/:id", (req, res) => {
       }
     });
   });
-
-
-// router.get('/',(req,res) => {
-// if(req.headers["content-type"] == "application/json"){  //if jsonObj is requested
-//     return res.json(data)
-// }
-// else{
-// return res.render('index',{title:'Books and Authors',data})   //else html will be rendered
-// }
-// });
 
 module.exports = router;
