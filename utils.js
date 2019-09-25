@@ -35,7 +35,7 @@ function validateAuthorDetail(authorDetail) {
   return schema.validate(authorDetail);
 }
 
-// Verifying Token
+// Verifying Token 
 function verifyToken(req, res, next) {
     // GET Auth Value
     requestHeader = req.headers["authorization"]; // User <token>

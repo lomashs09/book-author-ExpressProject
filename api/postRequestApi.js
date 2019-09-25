@@ -8,12 +8,14 @@ const verifyToken = require('../utils').verifyToken;
 router.use(express.json());
 
 router.post("/books", verifyToken, (req, res) => {
+  // Books Detail for Validation using JOI
     let bookDetail = {
         author_id: req.body.author_id,
         title: req.body.title,
         GENRE: req.body.GENRE,
         book_id: req.body.book_id
       };
+  // Validate using JOI
   let { error } = validateBookDetails(bookDetail);
 
   if (!error) {
@@ -36,7 +38,7 @@ router.post("/books", verifyToken, (req, res) => {
             res.send(rows);
           } else {
             res
-              .status(400)
+              .status(400)  //Bad Request
               .send(
                 `Error Either Book Id ${req.body.book_id} already Exist or Author Id donot exist in Author Table`
               );
@@ -53,10 +55,12 @@ router.post("/authors", verifyToken, (req, res) => {
   // Author Detail for Validation using JOI
 
   let authorDetail = { name: req.body.name };
+  // Validate using JOI
   let { error } = validateAuthorDetail(authorDetail);
   if (!error) {
     jwt.verify(req.token, "secretkey", (err, authData) => {
       if (err) {
+        //Forbidden
         res.sendStatus(403);
       } else {
         var sql = "INSERT INTO author VALUES(null,'" + req.body.name + "')";
@@ -65,6 +69,7 @@ router.post("/authors", verifyToken, (req, res) => {
             res.send(rows);
             console.log(rows);
           } else {
+            // Bad Request
             res.status(400).send(`Check the author name again`);
           }
         });

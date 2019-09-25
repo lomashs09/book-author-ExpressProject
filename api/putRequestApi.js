@@ -13,6 +13,7 @@ router.put("/book",verifyToken, (req, res) => {
   };
   let { error } = validateBookDetails(bookDetail);
   if (!error) {
+  // Verify JWT Token 
   jwt.verify(req.token, "secretkey", (err, authData) => {
     if (err) {
       res.sendStatus(403);
@@ -34,7 +35,7 @@ router.put("/book",verifyToken, (req, res) => {
 });
 
 router.put("/author",verifyToken, (req, res) => {
-  
+  // Validate Recieved Details
   let authorDetail = {author_id: req.body.author_id, name:req.body.name}
   let {error} = validateAuthorDetail(authorDetail);
   if(!error){
