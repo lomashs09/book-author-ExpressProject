@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const database = require("../config.js");
 const jwt = require("jsonwebtoken");
-const joi = require("@hapi/joi");
-const verifyToken = require("../registration").verifyToken;
+const verifyToken = require("../utils").verifyToken;
+const validateBookDetails = require('../utils').validateBookDetails;
+const validateAuthorDetail = require('../utils').validateAuthorDetail;
 
 router.put("/book",verifyToken, (req, res) => {
   let bookDetail = {
@@ -27,10 +28,16 @@ router.put("/book",verifyToken, (req, res) => {
       });
     }
   });
+}else{
+  res.status(400).send(error.details[0].message);
 }
 });
 
 router.put("/author",verifyToken, (req, res) => {
+  
+  let authorDetail = {author_id: req.body.author_id, name:req.body.name}
+  let {error} = validateAuthorDetail(authorDetail);
+  if(!error){
   jwt.verify(req.token, "secretkey", (err, authData) => {
     if (err) {
       res.sendStatus(403);
@@ -44,7 +51,10 @@ router.put("/author",verifyToken, (req, res) => {
         }
       });
     }
-  });
+  })
+} else{
+  res.status(400).send(error.details[0].message);
+}
 });
 
 module.exports = router;

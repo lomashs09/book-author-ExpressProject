@@ -16,7 +16,7 @@ router.post('/submit', (req, res) => {
       phone:joi.string().alphanum().min(5).max(11).required()
   });
   let newObj = {name:req.body.name, email:req.body.email, phone:req.body.phone,password:req.body.password}
-  let {error} = schema.validate(newObj)
+  let {error} = schema.validate(newObj);
   if(!error){
   var sql =
     "insert into User values('" +
@@ -37,8 +37,13 @@ router.post('/submit', (req, res) => {
         email: req.body.email
       };
       jwt.sign({ User }, "secretkey", (err, token) => {
-        // res.render("formSubmit",{title: "You are Registered Succesfully", token})
-        res.json({ token });
+        if(err){
+          res.send("An Error Ocurred");
+          throw err;
+        }
+        res.render("formSubmit",{title: "You are Registered Succesfully", token})
+        // To send JSON Object
+        // res.json({ token });  
       });
     }
   });
@@ -47,25 +52,6 @@ else{
   res.status(400).send(error.details[0].message);
 }
 });
-// Verifying Token
-function verifyToken(req, res, next) {
-  // GET Auth Value
-  requestHeader = req.headers["authorization"]; // User <token>
-  // Check if not Undefined
-  if (typeof requestHeader !== "undefined") {
-    // split at space
-    const tokenArray = requestHeader.split(' ');
-    //Get TOKEN from array
-    const UserToken = tokenArray[1];
-    // Set Token
-    req.token = UserToken;
-    // Next Middleware
-    next();
-  } else {
-    //Forbidden
-    res.sendStatus(403);
-  }
-}
+
 
 module.exports = router;
-module.exports.verifyToken = verifyToken;

@@ -2,8 +2,7 @@ const express = require("express");
 const router = express.Router();
 const database = require("../config.js");
 const jwt = require("jsonwebtoken");
-const verifyToken = require("../registration").verifyToken;
-
+const verifyToken = require("../utils").verifyToken;
 
 router.delete("books/:id",verifyToken, (req, res) => {
   jwt.verify(req.token, "secretkey", (err, authData) => {
@@ -38,6 +37,5 @@ router.delete("/authors/:id",verifyToken,(req, res) => {
     }
   });
 });
-
 
 module.exports = router;

@@ -2,18 +2,20 @@ const express = require("express");
 const router = express.Router();
 const database = require("../config.js");
 const jwt = require("jsonwebtoken");
-const joi = require("@hapi/joi");
-const verifyToken = require("../registration").verifyToken;
+const validateBookDetails = require('../utils').validateBookDetails;
+const validateAuthorDetail = require('../utils').validateAuthorDetail;
+const verifyToken = require('../utils').verifyToken;
 router.use(express.json());
 
 router.post("/books", verifyToken, (req, res) => {
-  let bookDetail = {
-    author_id: req.body.author_id,
-    title: req.body.title,
-    GENRE: req.body.GENRE,
-    book_id: req.body.book_id
-  };
+    let bookDetail = {
+        author_id: req.body.author_id,
+        title: req.body.title,
+        GENRE: req.body.GENRE,
+        book_id: req.body.book_id
+      };
   let { error } = validateBookDetails(bookDetail);
+
   if (!error) {
     jwt.verify(req.token, "secretkey", (err, authData) => {
       if (err) {
@@ -46,32 +48,10 @@ router.post("/books", verifyToken, (req, res) => {
     res.status(400).send(error.details[0].message);
   }
 });
-
-function validateBookDetails(bookDetail) {
-  const schema = joi.object({
-    author_id: joi
-      .number()
-      .integer()
-      .min(1)
-      .max(1000)
-      .required(),
-    title: joi.string().required(),
-    GENRE: joi
-      .string()
-      .min(1)
-      .max(20)
-      .required(),
-    book_id: joi
-      .number()
-      .integer()
-      .min(4)
-      .required()
-  });
-  return schema.validate(bookDetail);
-}
-
 router.post("/authors", verifyToken, (req, res) => {
+
   // Author Detail for Validation using JOI
+
   let authorDetail = { name: req.body.name };
   let { error } = validateAuthorDetail(authorDetail);
   if (!error) {
@@ -94,16 +74,5 @@ router.post("/authors", verifyToken, (req, res) => {
     res.status(400).send(error.details[0].message);
   }
 });
-
-function validateAuthorDetail(authorDetail) {
-  const schema = joi.object({
-    name: joi
-      .string().pattern(/^[a-zA-Z]*$/)
-      .min(3)
-      .max(30)
-      .required()
-  });
-  return schema.validate(authorDetail);
-}
 
 module.exports = router;
