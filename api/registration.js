@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const database = require("./config.js");
+const database = require("../db/config.js");
 const jwt = require("jsonwebtoken");
 const joi = require("@hapi/joi");
 
