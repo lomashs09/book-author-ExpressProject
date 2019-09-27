@@ -1,7 +1,13 @@
 const joi = require("@hapi/joi");
 
 // Validate Books Details Send in Request
-function validateBook(bookDetail) {
+function validateBook(req) {
+  let bookDetail = {
+    title: req.body.title,
+    book_id: req.body.book_id,
+    GENRE:req.body.GENRE,
+    author_id:req.body.author_id
+  };
   const schema = joi.object({
     author_id: joi
       .number()
@@ -22,7 +28,8 @@ function validateBook(bookDetail) {
   return schema.validate(bookDetail);
 }
 // Validate Author Details Send in Request
-function validateAuthor(authorDetail) {
+function validateAuthor(req) {
+  let authorParams = { author_id: req.body.author_id, name: req.body.name };  
   const schema = joi.object({
     author_id: joi.string().pattern(/^[0-9]*$/),
     name: joi
@@ -32,7 +39,7 @@ function validateAuthor(authorDetail) {
       .max(30)
       .required()
   });
-  return schema.validate(authorDetail);
+  return schema.validate(authorParams);
 }
 
 

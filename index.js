@@ -1,10 +1,23 @@
 const express = require('express');
 const app = express();
-const port =6000;
+const port =5000;
 const exphbs = require('express-handlebars');
-
+const jwt = require("jsonwebtoken");
+const exjwt = require('express-jwt');
 app.engine('handlebars',exphbs({defaultLayout:'main'}));
 app.set('view engine','handlebars');
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5000');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-type,Authorization');
+    next();
+});
+const jwtMW = exjwt({
+    secret: 'keyboard cat 4 ever'
+});
+
+
+
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended : false}));

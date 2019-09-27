@@ -1,3 +1,6 @@
+
+
+
 // Verifying Token 
 function verifyToken(req, res, next) {
     // GET Auth Value
@@ -18,4 +21,19 @@ function verifyToken(req, res, next) {
     }
   }
 
-  module.exports = verifyToken;
+  function authenticateUser(req,res){
+    return new Promise((resolve,reject)=>{
+      jwt.verify(req.token, "secretkey", (err, authData) => {
+        if (err) {
+          reject(res);
+        }
+        else{
+          resolve();
+        }
+      })
+    })
+  }
+  
+
+  module.exports.verifyToken = verifyToken;
+  module.exports.authenticateUser = authenticateUser;
