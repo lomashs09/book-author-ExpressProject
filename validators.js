@@ -41,8 +41,18 @@ function validateAuthor(req) {
   });
   return schema.validate(authorParams);
 }
+function validateUser(req){
+  let newObj = {name:req.body.name, email:req.body.email, phone:req.body.phone,password:req.body.password}
+  const schema = joi.object({
+    name:joi.string().alphanum().min(2).max(30).required(),
+    email:joi.string().trim().email().required(),
+    password:joi.string().pattern(/^[a-zA-Z0-9]{3,30}$/),
+    phone:joi.number().integer().min(5).max(99999999999).required()
+});
+return schema.validate(newObj);
+}
 
 
 module.exports.validateBook = validateBook;
 module.exports.validateAuthor = validateAuthor;
-
+module.exports.validateUser = validateUser;

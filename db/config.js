@@ -2,8 +2,6 @@ const mysql = require('mysql');
 const dotenv  = require('dotenv') // Enviroment Variable
 
 dotenv.config();
-
-
 database = mysql.createConnection({
     host: 'localhost',
     // Getting User Name From .env
